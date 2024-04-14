@@ -1,0 +1,130 @@
+
+Para crear un documento PDF desde Python que contenga partes de un código de un Jupyter Notebook, así como párrafos e imágenes, puedes seguir los siguientes pasos:
+
+1. **Extraer el contenido del Jupyter Notebook**: Los archivos de Jupyter Notebook tienen la extensión `.ipynb` y están en formato JSON. Puedes cargar el archivo y extraer el contenido que necesitas.
+
+2. **Crear el documento PDF**: Puedes usar una biblioteca como `ReportLab` para crear el PDF, o `nbconvert` para convertir directamente el Notebook a PDF y luego extraer las partes que necesitas.
+
+Aquí te dejo un ejemplo de cómo podrías hacerlo con `nbconvert` y luego con `PyPDF2` para extraer las partes específicas del PDF generado:
+
+### Paso 1: Convertir el Jupyter Notebook a PDF
+
+Primero, necesitas instalar `nbconvert` y `pandoc`. `nbconvert` viene con Anaconda, pero si no lo tienes, puedes instalarlo con pip:
+
+```bash
+pip install nbconvert
+```
+
+También necesitarás instalar `pandoc` y `TeX` (como MikTeX o TeX Live) si aún no los tienes, ya que son necesarios para que `nbconvert` funcione correctamente.
+
+Una vez que tengas todo instalado, puedes usar el siguiente comando para convertir tu Jupyter Notebook a PDF:
+
+```bash
+jupyter nbconvert --to pdf tu_notebook.ipynb
+```
+
+### Paso 2: Extraer partes específicas del PDF
+
+Para extraer partes específicas del PDF, puedes usar la biblioteca `PyPDF2`. Primero, instálala:
+
+```bash
+pip install PyPDF2
+```
+
+Luego, puedes usar el siguiente script de Python para extraer páginas específicas:
+
+```python
+import PyPDF2
+
+# Abrir el PDF original y el PDF de salida
+pdf_file_path = 'tu_notebook.pdf'
+pdf_output_path = 'partes_seleccionadas.pdf'
+
+pdf_reader = PyPDF2.PdfFileReader(pdf_file_path)
+pdf_writer = PyPDF2.PdfFileWriter()
+
+# Suponiendo que quieres las páginas 1 y 3 (índices 0 y 2)
+pages_to_keep = [0, 2]
+
+for page_num in pages_to_keep:
+    page = pdf_reader.getPage(page_num)
+    pdf_writer.addPage(page)
+
+# Escribir las páginas seleccionadas en un nuevo PDF
+with open(pdf_output_path, 'wb') as out:
+    pdf_writer.write(out)
+```
+
+Este script asume que ya sabes qué páginas del PDF generado quieres mantener. Si necesitas
+ extraer por contenido, como títulos o secciones específicas, tendrás que analizar el texto
+  de cada página y decidir programáticamente qué páginas guardar.
+
+### Nota sobre imágenes y texto:
+
+- **Imágenes**: Si las imágenes están incrustadas en el Jupyter Notebook, deberían aparecer
+ en el PDF generado por `nbconvert`. Si necesitas extraerlas, tendrás que hacerlo antes de
+  la conversión a PDF o manipular el PDF después.
+  
+- **Texto**: Si estás buscando extraer texto basado en su contenido (por ejemplo, títulos o 
+secciones específicas), tendrás que analizar el texto de cada página del PDF. Esto puede ser 
+más complejo y `PyPDF2` tiene capacidades limitadas para el análisis de texto.
+ Podrías considerar herramientas más avanzadas como `PDFMiner` o `PyMuPDF` si necesitas un
+  análisis más detallado.
+
+Recuerda que la manipulación de PDFs puede ser compleja dependiendo de la estructura y el 
+contenido del documento. Los pasos anteriores son una guía básica y es posible que necesites
+ ajustarlos según tus necesidades específicas.
+
+
+
+#############################################################
+################################################################
+
+Gracias por la entrega a tiempo, disculpa por la demora en la devolución...acabo de revisar
+ la misma.
+
+
+
+En primera medida, felicitaciones por el trabajo que estás realizando con la limpieza de datos
+ de tu dataset...me gusta la forma que viene tomando. Entiendo que lleva su tiempo y esfuerzo.
+
+Una primera cuestión que tendría en cuenta es la de evaluar la necesidad de generar un 
+archivo excel "intermedio" con nuestro df para luego leerlo como un df_parcial 
+(siendo este último el que modificaremos). Quizás optaría por realizar un:
+
+df_parcial = df.copy()
+De esa forma, mantenemos los datos originales a disposición en caso de ser necesario y 
+no generamos un archivo que utilizaremos en el mismo notebook inmediatamente.
+
+
+
+Además, pensando en entregas del Proyecto Final, sugiero también estructurar el notebook
+ utilizando en mayor medida "Markdown" en lugar de HTML o CSS (aunque puedes mecharlo
+  dentro de Markdown en algunos casos). Esto debido a que en general las correcciones 
+  se realizarán desde los notebooks de Google Colab (adjunto imagen para ejemplificar
+   a lo que me refiero). Si usamos el Markdown, podemos dividir en secciones el notebook 
+   para mejorar la navegación a través del mismo, como hemos visto en clases.
+
+
+
+En cuanto a los insights obtenidos (si hablamos de las consignas puntuales del presente 
+desafío), la idea un poco era realizar un par de análisis univariados y bivariados
+ (multivariados también sería un plus) con sus sendas conclusiones. En el notebook se
+  aprecian las visualizaciones, pero faltarían las conclusiones que has obtenido 
+  en las mismas...esto para complementar lo expuesto en las gráficas...hay cosas que
+   saltan a la vista, pero las conclusiones más detalladas de quienes desarrollan el 
+   trabajo...a veces no son tan sencillas de discernir para el público.
+    Por eso el ejercicio de tener que sumarlas en sus gráficas.
+
+
+
+En esta oportunidad el trabajo será aprobado, espero puedas agregar los insights para
+ la 2da Pre-Entrega ya que serán tomados en cuenta. De hecho, debería ser un apartado
+  más en la entrega del notebook...seguramente la clase siguiente comentemos al respecto
+  S del formato.
+
+
+
+Como sabes, cualquier duda o comentario, puedes escribirme sin problemas.
+
+Un saludo.
